@@ -1,1 +1,0 @@
-scripts describing permission commnd
