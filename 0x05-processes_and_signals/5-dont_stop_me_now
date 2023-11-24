@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# a Bash script that stops 4-to_infinity_and_beyond process.
+
+my_process=$(pgrep -f "4-to_infinity_and_beyond")
+if [ -n "$my_process" ]; then
+    # Send a SIGTERM signal to gracefully terminate the process
+    kill -15 "$my_process"
+
+    wait "$my_process"
+
+fi
