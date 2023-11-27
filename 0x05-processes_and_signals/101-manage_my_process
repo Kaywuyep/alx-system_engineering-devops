@@ -13,7 +13,7 @@ function start()
 {
     (./manage_my_process) &
     echo $! > /var/run/my_process.pid
-    echo "manage_py_process started"
+    echo "manage_my_process started"
 }
 
 function stop()
@@ -25,9 +25,11 @@ function stop()
 
 function restart()
 {
-    $0 stop
+    pkill -TERM "$(cat /var/run/my_process.pid)"
+    sudo rm /var/run/my_process.pid
     sleep 2
-    $0 start
+    (./manage_my_process) &
+    echo $! > /var/run/my_process.pid
     echo "manage_my_process restarted"
 }
 
