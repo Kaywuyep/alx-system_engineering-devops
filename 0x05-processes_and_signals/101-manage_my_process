@@ -4,50 +4,46 @@
 # Path to the manage_my_process script
 MANAGE_SCRIPT="./manage_my_process"
 
-# Function to start manage_my_process
-start() {
-    if [ -e "/var/run/my_process.pid" ]; then
-        echo "manage_my_process is already running. Use restart to force a restart."
-    else
-        $MANAGE_SCRIPT &
-        echo $! > /var/run/my_process.pid
-        echo "manage_my_process started"
-    fi
+function error()
+{
+    echo "Usage: manage_my_process {start|stop|restart}"
 }
 
-# Function to stop manage_my_process
-stop() {
-    if [ -e "/var/run/my_process.pid" ]; then
-        kill -TERM "$(cat /var/run/my_process.pid)"
-        rm -f /var/run/my_process.pid
-        echo "manage_my_process stopped"
-    else
-        echo "manage_my_process is not running"
-    fi
+function start()
+{
+    (./manage_my_process) &
+    echo $$ > $MANAGE_SCRIPT
+    echo "manage_py_process started"
 }
 
-# Function to restart manage_my_process
-restart() {
-    stop
-    start
+function stop()
+{
+    pkill -f ./manage_my_process
+    sudo rm $MANAGE_SCRIPT
+    echo "manage_my_process stopped"
+}
+
+function restart()
+{
+    pkill -f ./manage_my_process
+    rm $MANAGE_SCRIPT
+    ./manage_my_process &
+    echo $$ > $MANAGE_SCRIPT
     echo "manage_my_process restarted"
 }
 
-# Check the arguments
-case "$1" in
-    start)
-        start
-        ;;
-    stop)
-        stop
-        ;;
-    restart)
-        restart
-        ;;
-    *)
-        echo "Usage: $0 {start|stop|restart}"
-        exit 1
-        ;;
-esac
-
-exit 0
+if [ $# -ne 1 ];
+then
+    error
+else
+    case ${1} in
+    	"start")
+    	    start;;
+    	"restart")
+    	    restart;;
+    	"stop")
+    	    stop;;
+    	*)
+    	    error;;
+    esac
+fi
