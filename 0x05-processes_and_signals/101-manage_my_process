@@ -2,7 +2,7 @@
 # a bash script that manages a process
 
 # Path to the manage_my_process script
-MANAGE_SCRIPT="./manage_my_process"
+# MANAGE_SCRIPT="./manage_my_process"
 
 function error()
 {
@@ -12,23 +12,22 @@ function error()
 function start()
 {
     (./manage_my_process) &
-    echo $$ > $MANAGE_SCRIPT
+    echo $! > /var/run/my_process.pid
     echo "manage_py_process started"
 }
 
 function stop()
 {
-    pkill -f ./manage_my_process
-    sudo rm $MANAGE_SCRIPT
+    pkill -TERM "$(cat /var/run/my_process.pid)"
+    sudo rm /var/run/my_process.pid
     echo "manage_my_process stopped"
 }
 
 function restart()
 {
-    pkill -f ./manage_my_process
-    rm $MANAGE_SCRIPT
-    ./manage_my_process &
-    echo $$ > $MANAGE_SCRIPT
+    $0 stop
+    sleep 2
+    $0 start
     echo "manage_my_process restarted"
 }
 
