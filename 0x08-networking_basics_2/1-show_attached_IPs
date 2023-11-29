@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# display all active IPv4 IPs
+# If you find that ifconfig doesn't work,
+# you might want to explore using ip instead
+
+if command -v ifconfig &> /dev/null; then
+    ifconfig | grep -E "inet addr:" | cut -d':' -f2 | cut -d' ' -f1
+elif command -v ip &> /dev/null; then
+    ip addr show | awk '/inet / {print $2}' | cut -d'/' -f1
+else
+    echo "Error: Neither 'hostname', 'ifconfig' nor 'ip' commands found."
+fi
