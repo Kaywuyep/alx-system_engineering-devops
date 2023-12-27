@@ -40,41 +40,31 @@ Lack of firewall: Without a firewall, the servers are more susceptible to unauth
 No HTTPS: Transmitting data over HTTP is insecure. Adding HTTPS ensures secure communication between clients and servers.
 3. Without monitoring, there's no proactive identification of issues. Implementing monitoring tools can help detect performance issues, security breaches, and other problems before they impact the user experience
 
-###Task 3
-Web Server (1 server):
-
+###Task 2&3
+- Web Server (1 server):
 The Web Server is responsible for handling static content, serving as the first point of contact for incoming user requests. Nginx is chosen for its efficiency and speed in serving static files.
-Application Server (1 server):
-
+- Application Server (1 server):
 The Application Server hosts the dynamic components of the website, handling user interactions and processing application logic. This separation from the Web Server allows for better resource utilization and scalability.
-Load Balancer (HAproxy configured as a cluster):
-
+- Load Balancer (HAproxy configured as a cluster):
 The Load Balancer, implemented with HAproxy, distributes incoming traffic across multiple Web Servers for load balancing. Configuring HAproxy as a cluster with redundancy ensures high availability and fault tolerance. In case one load balancer fails, the other can seamlessly take over.
-Database Server (1 server):
-
+- Database Server (1 server):
 The Database Server, running MySQL, stores and manages the website's data. Separating the database onto its server allows for dedicated resources and improved database performance.
-Why These Components?
-Web Server:
-
+**Why These Components?**
+1. Web Server:
 Dedicated web servers enhance the separation of concerns, allowing efficient handling of static content, and facilitating easy scalability by adding more web servers as needed.
-Application Server:
-
+2. Application Server:
 Separating the application logic onto a dedicated server improves overall system performance. It allows for better resource management and makes it easier to scale the application independently of the web server.
-Load Balancer:
-
+3. Load Balancer:
 The Load Balancer ensures even distribution of incoming requests, preventing any single server from being overwhelmed. Configuring it as a cluster provides redundancy, reducing the risk of downtime due to load balancer failure.
-Database Server:
-
+4. Database Server:
 Isolating the database onto its server improves data security, allows for dedicated resource allocation, and facilitates better optimization of database performance.
-Specifics:
-Load Balancer Configuration:
+**Specifics:**
+- Load Balancer Configuration:
 HAproxy is configured as a cluster, ensuring that if one load balancer fails, the other seamlessly takes over. This setup enhances fault tolerance and availability.
-Next Steps:
-Security Measures:
-
+**Next Steps:**
+- Security Measures:
 Implement a firewall to restrict unauthorized access to servers, enhancing overall system security.
-SSL/TLS (HTTPS) Implementation:
-
+- SSL/TLS (HTTPS) Implementation:
 Enable SSL/TLS to secure data transmission between clients and servers, protecting user privacy and preventing potential security threats.
-Monitoring Setup:
+- Monitoring Setup:
 Implement monitoring tools to track system performance, detect anomalies, and ensure proactive issue resolution
