@@ -3,21 +3,18 @@
 package { 'nginx ':
 ensure => 'present',
 }
-exec {'install':
-command  => 'sudo apt-get update ; sudo apt-get -y install nginx',
-provider => shell,
+file_line { 'install':
+  ensure => 'present',
+  path   => '/etc/nginx/sites-available/default',
+  after  => 'listen 80 default_server;',
+  line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
 }
 
-exec {'Hello World!':
-command  => 'echo "Hello World!" | sudo dd status=none of=/var/www/html/index.html',
-provider => shell,
+file { '/var/www/html/index.html':
+  content => 'Hello World!',
 }
 
-exec {'sed -i "/listen 80 default_server;/ a rewrite^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default':
-provider => shell,
-}
-
-exec {'run':
-command  => 'sudo service nginx restart',
-provider => shell,
+service { 'nginx':
+  ensure  => running,
+  require => Package['nginx'],
 }
