@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# service(init) must say-nginx is not running, replace any "8080" wit "80" conf
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx restart
