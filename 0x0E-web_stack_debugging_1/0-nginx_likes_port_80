@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-#find out what’s keeping your Ubuntu container’s Nginx
-# 
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+# find out what’s keeping your Ubuntu container’s Nginx
+
+# remove default  nginx conf
+rm /etc/nginx/sites-enabled/default
+# confto listen on port 80 for all IP
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo service nginx restart
