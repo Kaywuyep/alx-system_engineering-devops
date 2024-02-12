@@ -1,1 +1,3 @@
-Task 0. Where am i?
+this Repo contains cool stuff
+
+have fun!!!
