@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Install necessary packages
+# If Nginx is not installed, you need to install it before proceeding
+# Assuming Nginx is already installed, you can skip this step
+# apt-get update
+# apt-get install nginx -y
+
+# check nginx status first
+service nginx status
+
+# Set Nginx to run as nginx user
+sed -i 's/user\s*nginx;/user nginx nginx;/g' /etc/nginx/nginx.conf
+
+# Configure Nginx to listen on all active IPs on port 8080
+sed -i '/listen\s*80;/a\    listen 8080;' /etc/nginx/sites-available/default
+
+# apache may interfere with nginx so kill the process if it is running
+pkill apache2
+
+# Restart Nginx to apply changes
+service nginx restart
