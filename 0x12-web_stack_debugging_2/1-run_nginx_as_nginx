@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Install necessary packages
 # If Nginx is not installed, you need to install it before proceeding
 # Assuming Nginx is already installed, you can skip this step
