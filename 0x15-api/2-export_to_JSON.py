@@ -15,7 +15,7 @@ if __name__ == "__main__":
     data = {user_id: []}
     aux_dict = {}
 
-    # get the info of the users and tasks by his id in dict format
+    # get the info of the users and tasks by ID in dict format
     users = requests.get(
         "https://jsonplaceholder.typicode.com/users/{}".format(
                 argv[1])).json()
@@ -30,6 +30,6 @@ if __name__ == "__main__":
         data[user_id].append(aux_dict)
         aux_dict = {}
 
-    # create and open a file and fill with the info above
+    # create and open a file and fill with the information above
     with open(file_name, mode="w", encoding="utf-8") as jsonfile:
         json.dump(data, jsonfile, ensure_ascii=False)

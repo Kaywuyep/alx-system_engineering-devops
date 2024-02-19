@@ -12,7 +12,7 @@ if __name__ == "__main__":
     aux_dict = {}
     data = {}
 
-    # get the info of the users and tasks by his id in dict format
+    # get the info of the users and tasks by ID in dict format
     users = requests.get(
         "https://jsonplaceholder.typicode.com/users").json()
     todos = requests.get(
@@ -29,6 +29,6 @@ if __name__ == "__main__":
         task_dict['username'] = aux_dict.get(todo.get('userId'))
         data.get(todo.get('userId')).append(task_dict)
 
-    # create and open a file and fill with the info above
+    # create and open a file and fill with the information above
     with open("todo_all_employees.json", "w", encoding="utf-8") as jsonfile:
         json.dump(data, jsonfile, ensure_ascii=False)
