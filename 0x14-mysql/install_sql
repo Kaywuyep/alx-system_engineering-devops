@@ -1,0 +1,23 @@
+# how to install mysql on your servers
+# do not run this as a script, follow each command
+
+
+sudo apt-get update
+sudo apt-get clean 
+
+# configure pending packages
+sudo dpkg --configure -a
+
+# install mysql
+# choose ubuntu-bionic and set password
+sudo wget -O mysql57 https://raw.githubusercontent.com/nuuxcode/alx-system_engineering-devops/master/scripts/mysql57 && sudo chmod +x mysql57 && sudo ./mysql57
+
+
+
+sudo service mysql status
+
+# do not forget to make sure that task #3 of your SSH project is completed for web-01 and web-02. You will likely need to add the public key to web-02 as you only added it to web-01 for this project.
+# check .ssh/authention_keys
+
+#  then run
+mysql -u root -p
