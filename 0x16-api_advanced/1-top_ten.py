@@ -30,4 +30,3 @@ def top_ten(subreddit):
             print("No posts found.")
     except requests.exceptions.RequestException as e:
         print("None")
-
