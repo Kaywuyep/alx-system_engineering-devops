@@ -9,20 +9,17 @@ def number_of_subscribers(subreddit):
     """
     number of not active users, total subscribers
     """
-    url = 'https://www.reddit.com'
-    headers = {'user-agent': 'fake_user'}
+    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    headers = {'User-Agent': 'Custom User Agent'}
+    # Set a custom User-Agent to avoid rate limiting
 
     try:
-        response = requests.get(
-            url + "/r/" + subreddit + "/about.json", headers=headers
-        )
-        response.raise_for_status()
-        # Raise an exception for 4xx or 5xx status codes
-        dict_response = response.json()
-        return dict_response.get('data', {}).get('subscribers', 0)
-    except requests.exceptions.RequestException as e:
-        print("Error:", e)
-        return 0
-    except json.decoder.JSONDecodeError as e:
-        print("Error decoding JSON:", e)
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        if 'data' in data and 'subscribers' in data['data']:
+            return data['data']['subscribers']
+        else:
+            return 0
+    except Exception as e:
+        print(f"Error fetching subreddit data: {e}")
         return 0
