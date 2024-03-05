@@ -9,18 +9,20 @@ def count_words(subreddit, word_list):
     """
     return _count_words_recursive(subreddit, word_list)
 
+
 def _count_words_recursive(subreddit, word_list, after=None, counts=None):
     """
     sorted count of given keywords
     """
+    base_url = "https://www.reddit.com"
     if counts is None:
         counts = {}
 
     if after is None:
-        url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=100"
+        url = f"{base_url}/r/{subreddit}/hot.json?limit=100"
     else:
-        url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=100&after={after}"
-    
+        url = f"{base_url}/r/{subreddit}/hot.json?limit=100&after={after}"
+
     headers = {'User-Agent': 'Custom User Agent'}
 
     try:
