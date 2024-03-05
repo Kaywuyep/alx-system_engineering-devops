@@ -4,7 +4,7 @@
 prints the titles of the first 10 hot posts listed for a given subreddit
 """
 
-from requests import get
+import requests
 
 
 def top_ten(subreddit):
@@ -13,22 +13,21 @@ def top_ten(subreddit):
     prints the titles of the first
     10 hot posts listed for a given subreddit
     """
-
-    if subreddit is None or not isinstance(subreddit, str):
-        print("None")
-
-    user_agent = {'User-agent': 'fake_user'}
-    params = {'limit': 10}
-    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
-
-    response = get(url, headers=user_agent, params=params)
-    results = response.json()
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+    headers = {'User-Agent': 'Custom User Agent'}
+    # Set a custom User-Agent to avoid rate limiting
 
     try:
-        list_data = results.get('data').get('children')
-
-        for post in list_data:
-            print(post.get('data').get('title'))
-
-    except Exception:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        # Raise an exception for bad status codes
+        data = response.json()
+        if 'data' in data and 'children' in data['data']:
+            posts = data['data']['children']
+            for post in posts:
+                print(post['data']['title'])
+        else:
+            print("No posts found.")
+    except requests.exceptions.RequestException as e:
         print("None")
+
