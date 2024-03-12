@@ -1,0 +1,38 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+    add_header X-Served-By $hostname;
+
+    # Define the root directory for serving static files
+    root /var/www/html;
+
+    # Define the location for serving static files under /hbnb_static/
+    location /hbnb_static/ {
+        alias /data/web_static/current/;
+    }
+
+    # Define the location for proxying requests to the Flask application
+    location /airbnb-onepage/ {
+        proxy_pass http://127.0.0.1:5000/;
+    }
+
+    # Route for /airbnb-dynamic/number_odd_or_even/(any integer)
+    location ~ /airbnb-dynamic/number_odd_or_even/(?<number>[0-9]+)$ {
+        proxy_pass http://127.0.0.1:5001/number_odd_or_even/$number;
+    }
+
+    # Define the location for handling other requests
+    location / {
+        # First attempt to serve request as file, then
+        # as directory, then fall back to displaying a 404.
+        try_files $uri $uri/ =404;
+    }
+
+    # Define the error page for 404 Not Found errors
+    error_page 404 /404.html;
+
+    # Permanent redirect for /redirect_me
+    rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+}
